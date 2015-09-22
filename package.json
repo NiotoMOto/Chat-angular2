@@ -1,0 +1,34 @@
+{
+  "name": "angular2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulp.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.9.5",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-debug": "^2.1.0",
+    "gulp-inject": "^2.2.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-rimraf": "^0.1.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-tslint": "^3.2.0",
+    "gulp-typescript": "^2.9.0",
+    "superstatic": "^1.2.3",
+    "wiredep": "^2.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiotoMOto/angular2Todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NiotoMOto/angular2Todo/issues"
+  },
+  "homepage": "https://github.com/NiotoMOto/angular2Todo#readme"
+}
