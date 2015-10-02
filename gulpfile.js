@@ -1,9 +1,14 @@
 var gulp = require('gulp');
+var config = require('./gulp.config')();
+
 var sourcemaps = require('gulp-sourcemaps');
 var tsc = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var tsProject = tsc.createProject('tsconfig.json');
-var config = require('./gulp.config')();
+
+
+var wiredep = require('wiredep').stream;
+var inject = require('gulp-inject');
 
 var browserSync = require('browser-sync');
 var superstatic = require('superstatic');
@@ -14,6 +19,13 @@ gulp.task('ts-lint', function() {
 		.pipe(tslint.report('prose', {
 			emitError: false
 		}));
+});
+
+gulp.task('inject', function(){
+	return gulp.src('./app/index.html')
+		.pipe(inject(gulp.src(config.allCss)))
+		.pipe(wiredep())
+		.pipe(gulp.dest('./app/'));
 });
 
 gulp.task('compile-ts', function() {
@@ -38,7 +50,7 @@ gulp.task('serve', ['ts-lint', 'compile-ts'], function() {
 
 	browserSync({
 		port: 3000,
-    files: ['index.html', '**/*.js'],
+    files: ['index.html', '**/*.js', '**/*.html'],
     injectChanges: true,
     logFileChanges: false,
     logLevel: 'debug',

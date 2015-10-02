@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/chat/socket.ts"],"names":["ChatSocket","ChatSocket.constructor"],"mappings":"AAAA;IACEA;IAEAC,CAACA;IACHD,iBAACA;AAADA,CAJA,AAICA,IAAA;AAJY,kBAAU,aAItB,CAAA","file":"components/chat/socket.js","sourcesContent":["export class ChatSocket {\r\n  constructor() {\r\n\r\n  }\r\n}\r\n"],"sourceRoot":"/source/"}
