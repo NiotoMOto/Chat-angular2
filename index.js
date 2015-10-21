@@ -3,20 +3,17 @@ var express = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-
-console.log(process.cwd() + '/app');
 app.use('/app', express.static(__dirname + '/app'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.get('/', function(req, res){
   res.sendFile(__dirname  +'/app/index.html');
 });
 
 io.on('connection', function(socket){
-  socket.on("message", function(m){
-    socket.emit('all:message', m);
-    console.log(m);
+  socket.on("user:message", function(m){
+    io.emit('chat:message', m);
   });
-  console.log('a user connected');
 });
 
 http.listen(4000, function(){

@@ -25,10 +25,13 @@ export class Chat {
   messages: Array;
   constructor(fb: FormBuilder){
     this.messages = [];
-    this.chatIo = io( 'http://localhost:4000' );
-    this.chatIo.on('all:message', (m) => {
+    this.chatIo = io( 'http://localhost:4000');
+    this.chatIo.on('chat:message', (m) => {
       this.messages.push(m);
-      console.log('messages', this.messages);
+      setTimeout(() => {
+        var objDiv = document.getElementsByClassName('messages-container')[0];
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }, 100);
     });
     this.logForm = fb.group({
       newUser: ['', Validators.required]
@@ -40,12 +43,18 @@ export class Chat {
     this.message = this.sendForm.controls.message;
   }
 
-  sendMessage() {
-    console.log('sendMessage');
-    if (this.sendForm.valid) {
-      this.chatIo.emit('message', this.message.value);
+  keyUpMessage(e){
+    if (e.keyCode === 13 && !e.shiftKey) {
+      this.sendMessage();
     }
+  }
 
+  sendMessage() {
+    console.log(this.sendForm.valid);
+    if (this.sendForm.valid) {
+      this.chatIo.emit('user:message', this.message.value);
+      this.sendForm.controls.message.updateValue('');
+    }
   }
 
   onSubmit() {

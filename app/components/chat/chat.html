@@ -1,52 +1,25 @@
-<form *ng-if="!user" [ng-form-model]="logForm" (submit)="onSubmit()" class="form-inline">
-	<div class="form-group"
-		[class.has-error]="!newUser.valid && newUser.touched">
-  		<input class="form-control" [ng-form-control]="logForm.controls['newUser']" placeholder="pseudo">
+<div class="mdl-card__title">
+	<h2 class="mdl-card__title-text">Chat</h2>
+</div>
+<div class="mdl-card--expand messages-container">
+	<div *ng-for="#message of messages" class="mdl-grid">
+		<div class="mdl-cell--3-col message-user">
+			<div class="circle"></div>
+			Pseudo
+		</div>
+		<div class="mdl-cell--9-col">
+			<div class="message">
+				{{message}}
+			</div>
+			<span class="message-date">Amaury à 15h30</span>
+		</div>
 	</div>
-  <button class="btn btn-primary" type="submit" [disabled]="!logForm.valid">Connexion</button>
-</form>
-
-<div *ng-if="user">
-  <h4>Connecté en tant que <strong>{{user.name}}</strong></h4>
 </div>
-
-
-<div *ng-if="user">
-</div>
-<h2>Chat socket.io</h2>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading" id="accordion">
-                    <span class="glyphicon glyphicon-comment"></span> Chat
-                    <div class="btn-group pull-right">
-                        <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                    </div>
-                </div>
-            <div class="panel-collapse" id="collapseOne">
-                <div class="panel-body">
-                    <ul class="chat">
-											<div *ng-for="#message of messages">
-												{{message}}
-											</div>
-                    </ul>
-                </div>
-                <div class="panel-footer">
-									<form [ng-form-model]="sendForm" (submit)="sendMessage()" class="form-inline">
-                    <div class="input-group">
-                        <input id="btn-input" type="text" class="form-control input-sm" [ng-form-control]="sendForm.controls['message']" placeholder="Type your message here..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-warning btn-sm" id="btn-chat">Send</button>
-                        </span>
-                    </div>
-									</form>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
+<div class="mdl-card__actions mdl-card--border">
+	<form [ng-form-model]="sendForm" (submit)="sendMessage()">
+		<div class="mdl-textfield mdl-js-textfield sende-message">
+			<textarea id="text-message" (keyup)="keyUpMessage($event)" class="mdl-textfield__input" rows="3" [ng-form-control]="sendForm.controls['message']"></textarea>
+			<label class="mdl-textfield__label" for="sample1">Message</label>
+		</div>
+	</form>
 </div>

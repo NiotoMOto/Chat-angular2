@@ -8,18 +8,8 @@ import {Chat} from './components/chat/chat';
 	selector: 'app'
 })
 @View({
-  template: `
-	<div class="container">
-			<nav>
-				<ul>
-					<li><a [router-link]="['/home']">Todo</a></li>
-					<li><a [router-link]="['/chat']">Chat</a></li>
-				</ul>
-			</nav>
-			<router-outlet></router-outlet>
-		</div>
-	 `,
-	 directives: [RouterOutlet, RouterLink]
+  templateUrl: './app/components/layout/layout.html',
+	directives: [RouterOutlet, RouterLink]
 })
 
 @RouteConfig([

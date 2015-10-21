@@ -6,11 +6,11 @@ var tsc = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var tsProject = tsc.createProject('tsconfig.json');
 
-
+var livereload = require('gulp-livereload');
 var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
+var sass = require('gulp-sass');
 
-var browserSync = require('browser-sync');
 var superstatic = require('superstatic');
 
 gulp.task('ts-lint', function() {
@@ -21,11 +21,37 @@ gulp.task('ts-lint', function() {
 		}));
 });
 
-gulp.task('inject', function(){
+gulp.task('inject', function() {
 	return gulp.src('./app/index.html')
-		.pipe(inject(gulp.src(config.allCss)))
 		.pipe(wiredep())
 		.pipe(gulp.dest('./app/'));
+});
+
+gulp.task('html', function(){
+	gulp.src([config.allHtml])
+	.pipe(wiredep())
+	.pipe(livereload());
+});
+
+gulp.task('scss', function(){
+	gulp.src(['app/app.scss'])
+	.pipe(
+		inject(
+			gulp.src([
+				config.allScss,
+				'!app/app.scss'
+			]),
+		  {
+				starttag: '/* inject:scss */',
+				endTag: '/* endinject */',
+				transform: function (filepath){
+					return '@import '+ '".'+ filepath.replace('.less', '') +'";';
+				}
+			}
+	))
+	.pipe(sass().on('error', sass.logError))
+	.pipe(gulp.dest('./app/css'))
+	.pipe(livereload());
 });
 
 gulp.task('compile-ts', function() {
@@ -41,27 +67,15 @@ gulp.task('compile-ts', function() {
 
 	return tsResult.js
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(config.tsOutputPath));
+		.pipe(gulp.dest(config.tsOutputPath))
+		.pipe(livereload());
 });
 
-gulp.task('serve', ['ts-lint', 'compile-ts'], function() {
-
+gulp.task('watch', ['ts-lint', 'compile-ts', 'scss', 'inject'], function() {
+	livereload.listen();
 	gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
-
-	browserSync({
-		port: 3000,
-    files: ['index.html', '**/*.js', '**/*.html'],
-    injectChanges: true,
-    logFileChanges: false,
-    logLevel: 'debug',
-    notify: true,
-    reloadDelay: 0,
-    server: {
-      baseDir: './app',
-      middleware: superstatic({ debug: true})
-    }
-	});
-
+	gulp.watch([config.allHtml], ['html']);
+	gulp.watch([config.allScss], ['scss']);
 });
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['watch']);
