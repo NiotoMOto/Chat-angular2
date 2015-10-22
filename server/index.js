@@ -5,8 +5,6 @@ var passport = require('passport');
 var path = require('path');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
-var router = express.Router();
-
 
 app.use(bodyParser.json());
 app.use(methodOverride());
@@ -17,15 +15,17 @@ app.use(passport.session());
 app.use('/app', express.static('./app'));
 app.use('/bower_components', express.static('./bower_components'));
 
+//models
 var data = require('./data');
+
+//sockets
 var sockets = require('./sockets')(http);
 
-require('./routes/api')(router);
-app.use(router);
+// Routes
+app.use(require('./routes/api'));
 
-app.get('/', function(req, res){
-  res.sendFile('/app/index.html', {'root': './'} );
-});
+app.use(require('./routes/public'));
+
 
 function start(){
   http.listen(4000, function(){
