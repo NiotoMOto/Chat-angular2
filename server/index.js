@@ -17,7 +17,11 @@ app.use(passport.session());
 app.use('/app', express.static('./app'));
 app.use('/bower_components', express.static('./bower_components'));
 
+var data = require('./data');
 var sockets = require('./sockets')(http);
+
+require('./routes/api')(router);
+app.use(router);
 
 app.get('/', function(req, res){
   res.sendFile('/app/index.html', {'root': './'} );

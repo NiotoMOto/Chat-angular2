@@ -11,7 +11,13 @@ var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
 var sass = require('gulp-sass');
 
-var superstatic = require('superstatic');
+var gls = require('gulp-live-server');
+
+
+
+livereload.listen();
+var server = gls.new(['--harmony', 'index.js'], null, false);
+server.start();
 
 gulp.task('ts-lint', function() {
 	return gulp.src(config.allTs)
@@ -72,10 +78,12 @@ gulp.task('compile-ts', function() {
 });
 
 gulp.task('watch', ['ts-lint', 'compile-ts', 'scss', 'inject'], function() {
-	livereload.listen();
 	gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
 	gulp.watch([config.allHtml], ['html']);
 	gulp.watch([config.allScss], ['scss']);
+	gulp.watch(['./index.js', './server/**/*.js'], function() {
+      server.start.bind(server)();
+  });
 });
 
 gulp.task('default', ['watch']);
