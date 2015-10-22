@@ -15,7 +15,6 @@ import {Chat} from './components/chat/chat';
 @RouteConfig([
 	{ path: '/home', component: Todo, as: 'home'},
 	{ path: '/chat', component: Chat, as: 'chat'}
-
 ])
 
 

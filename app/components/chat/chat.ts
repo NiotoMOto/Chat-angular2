@@ -25,7 +25,10 @@ export class Chat {
   messages: Array;
   constructor(fb: FormBuilder){
     this.messages = [];
-    this.chatIo = io( 'http://localhost:4000');
+    this.chatIo = io.connect('http://localhost:4000/chat');
+    this.chatIo.on('chat:newUser', (m) => {
+      this.messages.push('new user');
+    };
     this.chatIo.on('chat:message', (m) => {
       this.messages.push(m);
       setTimeout(() => {
@@ -50,7 +53,6 @@ export class Chat {
   }
 
   sendMessage() {
-    console.log(this.sendForm.valid);
     if (this.sendForm.valid) {
       this.chatIo.emit('user:message', this.message.value);
       this.sendForm.controls.message.updateValue('');
