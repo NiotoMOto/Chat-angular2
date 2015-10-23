@@ -23,7 +23,6 @@ var sockets = require('./sockets')(http);
 
 // Routes
 app.use(require('./routes/api'));
-
 app.use(require('./routes/public'));
 
 
