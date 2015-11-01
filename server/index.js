@@ -15,6 +15,7 @@ app.use(passport.session());
 app.use('/app', express.static('./app'));
 app.use('/bower_components', express.static('./bower_components'));
 
+
 //models
 var data = require('./data');
 
@@ -24,7 +25,6 @@ var sockets = require('./sockets')(http);
 // Routes
 app.use(require('./routes/api'));
 app.use(require('./routes/public'));
-
 
 function start(){
   http.listen(4000, function(){

@@ -23,7 +23,7 @@ export class Chat {
   newUser : string;
   chatIo: Socket ;
   messages: Array;
-  constructor(fb: FormBuilder){
+  constructor(fb: FormBuilder) {
     this.messages = [];
     this.chatIo = io.connect('http://localhost:4000/chat');
     this.chatIo.on('chat:newUser', (m) => {
