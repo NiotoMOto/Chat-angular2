@@ -10,6 +10,7 @@ var livereload = require('gulp-livereload');
 var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
 var sass = require('gulp-sass');
+var jade = require('gulp-jade');
 
 var gls = require('gulp-live-server');
 
@@ -28,14 +29,16 @@ gulp.task('ts-lint', function() {
 });
 
 gulp.task('inject', function() {
-	return gulp.src('./app/index.html')
+	return gulp.src('./app/index.jade')
 		.pipe(wiredep())
 		.pipe(gulp.dest('./app/'));
 });
 
 gulp.task('html', function(){
-	gulp.src([config.allHtml])
+	gulp.src([config.allJades])
 	.pipe(wiredep())
+	.pipe(jade())
+	.pipe(gulp.dest('./app/'))
 	.pipe(livereload());
 });
 
@@ -77,9 +80,9 @@ gulp.task('compile-ts', function() {
 		.pipe(livereload());
 });
 
-gulp.task('watch', ['ts-lint', 'compile-ts', 'scss', 'inject'], function() {
+gulp.task('watch', ['ts-lint', 'compile-ts', 'scss', 'inject', 'html'], function() {
 	gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
-	gulp.watch([config.allHtml], ['html']);
+	gulp.watch([config.allJades], ['html']);
 	gulp.watch([config.allScss], ['scss']);
 	gulp.watch(['./index.js', './server/**/*.js'], function() {
       server.start.bind(server)();

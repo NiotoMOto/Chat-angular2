@@ -4,7 +4,7 @@ module.exports = function() {
 		typings: './typings/**/*.d.ts',
 		allCss: './app/**/*.css',
 		allScss: './app/**/*.scss',
-		allHtml: './app/**/*.html',
+		allJades: './app/**/*.jade',
 		bowerComonents: './bower_components/**/*',
 		tsOutputPath: './app/'
 	};

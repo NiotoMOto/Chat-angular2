@@ -29,5 +29,6 @@ node_modules
 bower_components
 .tmp
 app/**/*.js
+app/**/*.html
 app/css
 app/**/*.map
